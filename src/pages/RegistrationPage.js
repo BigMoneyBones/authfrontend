@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { registerUser, loginUser } from "../auth";
+import { registerUser, loginUser } from "../Auth";
 
-export const RegistrationPage = () => {
+const RegistrationPage = ({ isAuthLoading, setIsAuthLoading }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -20,27 +20,35 @@ export const RegistrationPage = () => {
             setUsername(newUserName);
           }}
         ></input>
+
         <br />
         <br />
+
         <label>Password:</label>
         <input
-          type="text"
+          type="password"
           value={password}
           onChange={(event) => {
             const newPassword = event.target.value;
             setPassword(newPassword);
           }}
         ></input>
+
+        <br />
+        <br />
+
         <button
           id="signup"
           type="submit"
-          onClick={async (isAuthLoading, setIsAuthLoading) => {
+          onClick={async () => {
             setIsAuthLoading(true);
             const isUserRegistered = await registerUser(username, password);
             if (isUserRegistered) {
               const isUserLoggedIn = await loginUser(username, password);
+              console.log("user registered");
               if (isUserLoggedIn) {
-                props.setIsAuthLoading(false);
+                setIsAuthLoading(false);
+                console.log("user Logged In");
                 navigate("/");
               }
             }

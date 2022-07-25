@@ -1,5 +1,9 @@
-import logo from "./logo.svg";
 import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import RegistrationPage from "./pages/RegistrationPage";
+import NavBar from "./components/NavBar";
 import { useState } from "react";
 
 function App() {
@@ -12,7 +16,7 @@ function App() {
           <Route
             path="/"
             element={
-              <Navbar
+              <NavBar
                 isAuthLoading={isAuthLoading}
                 setIsAuthLoading={setIsAuthLoading}
               />

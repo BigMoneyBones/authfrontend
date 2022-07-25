@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
-import { loginUser } from "../auth";
+import { useNavigate } from "react-router-dom";
+import { loginUser } from "../Auth";
 
-export const LoginPage = (isAuthLoading) => {
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
+export const LoginPage = ({ isAuthLoading, setIsAuthLoading }) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   return (
@@ -20,21 +20,27 @@ export const LoginPage = (isAuthLoading) => {
             setUsername(newUserName);
           }}
         ></input>
+
         <br />
         <br />
+
         <label>Password:</label>
         <input
-          type="text"
+          type="password"
           value={password}
           onChange={(event) => {
             const newPassword = event.target.value;
             setPassword(newPassword);
           }}
         ></input>
+
+        <br />
+        <br />
+
         <button
           id="login"
           type="submit"
-          onClick={async (isAuthLoading, setIsAuthLoading) => {
+          onClick={async () => {
             setIsAuthLoading(true);
             const isUserLoggedIn = await loginUser(username, password);
             if (isUserLoggedIn) {

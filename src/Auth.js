@@ -1,15 +1,15 @@
-import React from "react";
+// import React from "react";
 const urlEndpoint = process.env.REACT_APP_URL_ENDPOINT;
 
 export const registerUser = async (username, password) => {
-  fetch(`${urlEndpoint}/auth/register-user`, {
+  const response = await fetch(`${urlEndpoint}/auth/register-user`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      username,
-      password,
+      username: username,
+      password: password,
     }),
   });
   const responseJSON = await response.json();
@@ -17,7 +17,7 @@ export const registerUser = async (username, password) => {
 };
 
 export const loginUser = async (username, password) => {
-  fetch(`${urlEndpoint}/auth/login-user`, {
+  const response = await fetch(`${urlEndpoint}/auth/login-user`, {
     method: "POST",
     headers: {
       "content-Type": "application/json",
@@ -33,15 +33,16 @@ export const loginUser = async (username, password) => {
       process.env.REACT_APP_TOKEN_HEADER_KEY,
       JSON.stringify(responseJSON.token)
     );
-    return responseJSON.success;
   }
+  return responseJSON.success;
 };
 
-export const logoutUser = async () => {
+export const logoutUser = () => {
   localStorage.removeItem(process.env.REACT_APP_TOKEN_HEADER_KEY);
+  return true;
 };
 
-export const getUserToken = async () => {
+export const getUserToken = () => {
   return JSON.parse(
     localStorage.getItem(process.env.REACT_APP_TOKEN_HEADER_KEY)
   );

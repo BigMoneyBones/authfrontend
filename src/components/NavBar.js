@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Outlet, Link } from "react-router-dom";
-import { Routes, Route } from "react-router-dom";
-import { getUserToken } from "../auth";
-import { logoutUser } from "../auth";
+import { getUserToken } from "../Auth";
+import { logoutUser } from "../Auth";
+import { useNavigate } from "react-router-dom";
 
-export const Navbar = (isAuthLoading, setIsAuthLoading) => {
+const Navbar = ({ isAuthLoading, setIsAuthLoading }) => {
   const [userToken, setUserToken] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const localUserToken = getUserToken();
@@ -37,11 +38,16 @@ export const Navbar = (isAuthLoading, setIsAuthLoading) => {
               <strong>You Are Logged In</strong>
             </span>
             <button
-              onClick={() => {
-                logoutUser();
+              onClick={async () => {
+                setIsAuthLoading(true);
+                const logoutSuccess = await logoutUser();
+                if (logoutSuccess) {
+                  setIsAuthLoading(false);
+                  navigate("/");
+                }
               }}
             >
-              Logout
+              &nbsp; Logout
             </button>
           </div>
         )}
